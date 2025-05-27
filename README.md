@@ -138,6 +138,26 @@ URL Shortener/
 3. **Access the application**
    Open your browser and navigate to `http://localhost:5173`
 
+## 🌐 Live Deployment
+
+The application is deployed and accessible at the following URLs:
+
+- **Frontend**: [https://url-shortener-nu-red.vercel.app/](https://url-shortener-nu-red.vercel.app/)
+- **Backend API**: [https://url-shortener-rk77.onrender.com](https://url-shortener-rk77.onrender.com)
+
+### Deployment Details
+
+- **Frontend**: Deployed on Vercel for fast, global CDN delivery
+- **Backend**: Deployed on Render with automatic deployments from the main branch
+- **Database**: MongoDB Atlas cloud database for reliable data storage
+
+### Using the Live Application
+
+1. Visit the frontend URL to access the application
+2. All API calls are automatically routed to the deployed backend
+3. Short URLs created will use the backend domain for redirection
+4. Example short URL format: `https://url-shortener-rk77.onrender.com/abc123`
+
 ## 📚 API Documentation
 
 ### Authentication Endpoints
