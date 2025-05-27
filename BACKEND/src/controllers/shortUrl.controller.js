@@ -106,30 +106,46 @@ export const createShortUrl = async (req, res, next) => {
 };
 
 export const redirectFromShortUrl = async (req, res, next) => {
+    const requestId = `REDIRECT-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+    console.log(`🔗 [REDIRECT-CONTROLLER] ${requestId} - Starting redirect request`);
+
     try {
         const { id } = req.params;
 
+        console.log(`📋 [REDIRECT-CONTROLLER] ${requestId} - Request details:`, {
+            id: id || 'undefined',
+            method: req.method,
+            url: req.originalUrl,
+            userAgent: req.get('User-Agent'),
+            ip: req.ip || req.connection.remoteAddress
+        });
+
         // Validate input
         if (!id) {
+            console.warn(`⚠️ [REDIRECT-CONTROLLER] ${requestId} - No ID provided`);
             throw new BadRequestError("Short URL ID is required");
         }
 
         if (typeof id !== 'string' || id.trim().length === 0) {
+            console.warn(`⚠️ [REDIRECT-CONTROLLER] ${requestId} - Invalid ID format: ${id}`);
             throw new BadRequestError("Invalid short URL ID format");
         }
 
+        console.log(`🔍 [REDIRECT-CONTROLLER] ${requestId} - Looking up short URL: ${id.trim()}`);
         const url = await getShortUrl(id.trim());
 
         if (!url) {
+            console.warn(`⚠️ [REDIRECT-CONTROLLER] ${requestId} - Short URL not found: ${id.trim()}`);
             throw new NotFoundError("Short URL not found");
         }
 
         if (!url.full_url) {
+            console.error(`❌ [REDIRECT-CONTROLLER] ${requestId} - Invalid URL data:`, url);
             throw new Error("Invalid URL data in database");
         }
 
         // Log the redirect for analytics
-        console.log(`Redirecting ${id} to ${url.full_url} (clicks: ${url.clicks})`);
+        console.log(`🎯 [REDIRECT-CONTROLLER] ${requestId} - Redirecting ${id} to ${url.full_url} (clicks: ${url.clicks})`);
 
         // Set headers to prevent caching of the redirect
         res.set({
@@ -138,12 +154,18 @@ export const redirectFromShortUrl = async (req, res, next) => {
             'Expires': '0'
         });
 
+        console.log(`✅ [REDIRECT-CONTROLLER] ${requestId} - Sending 302 redirect to: ${url.full_url}`);
+
         // Use 302 (temporary redirect) to prevent aggressive browser caching
         // This ensures each visit makes a new request to increment clicks
         res.redirect(302, url.full_url);
 
     } catch (error) {
-        console.error("Error in redirectFromShortUrl:", error);
+        console.error(`❌ [REDIRECT-CONTROLLER] ${requestId} - Redirect failed:`, {
+            message: error.message,
+            name: error.name,
+            stack: error.stack
+        });
         next(error);
     }
 };

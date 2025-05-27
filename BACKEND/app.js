@@ -14,8 +14,13 @@ const app = express();
 
 app.use(cors(
     {
-        origin: ["https://url-shortener-rk77.onrender.com", "http://localhost:5173"],
-        methods: ["GET", "POST"],
+        origin: [
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "https://url-shortener-rk77.onrender.com",
+            "https://url-shortener-chi-six.vercel.app"
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         credentials: true,
         optionsSuccessStatus: 204
     }
@@ -50,14 +55,7 @@ connectDB().catch((error) => {
     process.exit(1);
 });
 
-// Routes
-app.use("/api/shortUrl", shortUrl);
-app.use('/api/auth', authRoutes)
-
-// Apply async handler to redirect route
-app.get("/:id", asyncHandler(redirectFromShortUrl));
-
-// Health check endpoint
+// Health check endpoint (must be before catch-all route)
 app.get("/health", (_req, res) => {
     res.status(200).json({
         success: true,
@@ -65,6 +63,13 @@ app.get("/health", (_req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+
+// API Routes
+app.use("/api/shortUrl", shortUrl);
+app.use('/api/auth', authRoutes);
+
+// Apply async handler to redirect route (catch-all, must be last)
+app.get("/:id", asyncHandler(redirectFromShortUrl));
 
 // 404 handler for undefined routes
 app.use((req, res) => {
