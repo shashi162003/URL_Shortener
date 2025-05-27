@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://url-shortener-rk77.onrender.com",
     headers: {
         "Content-Type": "application/json",
     },
