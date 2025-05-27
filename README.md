@@ -142,7 +142,7 @@ URL Shortener/
 
 The application is deployed and accessible at the following URLs:
 
-- **Frontend**: [https://url-shortener-nu-red.vercel.app/](https://url-shortener-nu-red.vercel.app/)
+- **Frontend**: [https://url-shortener-nu-red.vercel.app/](https://url-shortener-puce-delta.vercel.app/)
 - **Backend API**: [https://url-shortener-rk77.onrender.com](https://url-shortener-rk77.onrender.com)
 
 ### Deployment Details
