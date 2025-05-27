@@ -14,7 +14,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin: ["http://localhost:5173", "http://localhost:3000"],
+        origin: ["https://url-shortener-rk77.onrender.com", "http://localhost:5173"],
         methods: ["GET", "POST"],
         credentials: true,
         optionsSuccessStatus: 204
