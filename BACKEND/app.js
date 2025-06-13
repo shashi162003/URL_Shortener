@@ -19,6 +19,7 @@ app.use(cors(
             "http://localhost:3000",
             "https://url-shortener-rk77.onrender.com",
             "https://url-shortener-chi-six.vercel.app",
+            "https://url-shortener-puce-delta.vercel.app/",
             "https://devshashi.dev",
             "https://www.devshashi.dev",
         ],
