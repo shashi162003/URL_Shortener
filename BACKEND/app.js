@@ -109,5 +109,12 @@ const gracefulShutdown = async (signal) => {
     });
 };
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Api running smoothly"
+    })
+})
+
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
