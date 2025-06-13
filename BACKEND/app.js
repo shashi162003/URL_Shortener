@@ -18,7 +18,9 @@ app.use(cors(
             "http://localhost:5173",
             "http://localhost:3000",
             "https://url-shortener-rk77.onrender.com",
-            "https://url-shortener-chi-six.vercel.app"
+            "https://url-shortener-chi-six.vercel.app",
+            "https://devshashi.dev",
+            "https://www.devshashi.dev",
         ],
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         credentials: true,
@@ -54,6 +56,13 @@ connectDB().catch((error) => {
     console.error('Failed to connect to database:', error);
     process.exit(1);
 });
+
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Api running smoothly"
+    })
+})
 
 // Health check endpoint (must be before catch-all route)
 app.get("/health", (_req, res) => {
@@ -109,12 +118,7 @@ const gracefulShutdown = async (signal) => {
     });
 };
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Api running smoothly"
-    })
-})
+
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
