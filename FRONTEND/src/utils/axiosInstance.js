@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const base = import.meta.env.VITE_API_BASE_URL;
+
 const axiosInstance = axios.create({
-    baseURL: "https://url-shortener-rk77.onrender.com",
+    baseURL: base,
     headers: {
         "Content-Type": "application/json",
     },
